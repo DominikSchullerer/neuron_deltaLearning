@@ -132,6 +132,7 @@ file.addEventListener("change", function () {
     reader.readAsText(this.files[0])
 
     prepare_canvas()
+    neuron = undefined
 });
 
 
