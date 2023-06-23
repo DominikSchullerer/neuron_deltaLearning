@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entscheidungsbaum</title>
+    <link rel="stylesheet" href="./css/stylesheet.css">
+
+    <script src="./js/graph.js" defer></script>
+    <script src="./js/neuron.js" defer></script>
+</head>
+
+<body>
+    <div id="inputContainer">
+        <span>
+            <label for="data">Wähle deine *.csv-Datei aus:</label>
+            <input type="file"
+                   id="data" name="data"
+                   accept=".csv">
+        </span>
+        <!--
+            <span>
+                <label for="trainingDataProportion">Wieviele Prozent der Daten sollen als Trainingsdaten verwendet werden?</label>
+                <input type="number"
+                       min="0" max="75" value="75" 
+                       id="trainingDataProportion" name="trainingDataProportion">
+            </span>
+        -->
+
+        <span>
+            <label for="maxCycles">Wieviele Trainingsepochen sollen höchstens durchgeführt werden?:</label>
+            <input type="number"
+                   min="0" max="20" value="10" 
+                   id="maxCycles" name="maxCycles">
+        </span>
+        <span>
+            <label for="w0Start">Wie groß ist w0 am Anfang?:</label>
+            <input type="number"
+                   min="-5" max="5" value="0.1" 
+                   id="w0Start" name="w0Start">
+        </span>
+        <span>
+            <label for="w1Start">Wie groß ist w1 am Anfang?</label>
+            <input type="number"
+                   min="-5" max="5" value="-0.6" 
+                   id="w1Start" name="w1Start">
+        </span>
+        <span>
+            <label for="w2Start">Wie groß ist w2 am Anfang?</label>
+            <input type="number"
+            min="-5" max="5" value="0.9" 
+            id="w2Start" name="w2Start">
+        </span>
+        <span>
+            <label for="learningRate">Wie groß ist die Lernrate?</label>
+            <input type="number"
+            min="0" max="1" value="0.05" 
+            id="learningRate" name="learningRate">
+        </span>
+
+        <span>
+            <button id="buildNeuronButton">Neuron generieren</button>
+            <button id="learnButton">Lernen</button>
+            <button id="learnOnceButton">Eine Lerneepoche</button>
+        </span>
+    </div>
+
+    <div id="plotContainer">
+        <canvas id="plotCanvas" height="550" width="700"></canvas>
+    </div>
+
+    <div id="treeContainer"></div>
+</body>
+
+</html>
