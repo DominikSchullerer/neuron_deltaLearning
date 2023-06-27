@@ -2,6 +2,8 @@ const globalMinDef = -1
 const globalMaxDef = 8
 let neuron = undefined
 let samples = undefined
+let learning_step = 0
+let neuronHistory = document.getElementById("neuronHistory")
 
 
 prepare_canvas()
@@ -66,6 +68,8 @@ class Neuron {
         this._w2 = w2
         this._delta = delta
         this._borderFunction = new linearFunction(globalMinDef, globalMaxDef, -1 * (this._w1 / this._w2), -1 * (this._w0 / this._w2))
+    
+        this.newHistory()
     }
 
     get borderFunction() {
@@ -90,6 +94,25 @@ class Neuron {
 
         this._borderFunction.slope = -1 * (this._w1 / this._w2)
         this._borderFunction.offset = -1 * (this._w0 / this._w2)
+    }
+
+    newHistory() {
+        let historyStep = document.createElement('tr')
+
+        let gen = document.createElement('td')
+        gen.textContent = learning_step
+        historyStep.appendChild(gen)
+        let w0 = document.createElement('td')
+        w0.textContent = Math.round(this._w0 * 1000)/1000
+        historyStep.appendChild(w0)
+        let w1 = document.createElement('td')
+        w1.textContent = Math.round(this._w1 * 1000)/1000
+        historyStep.appendChild(w1)
+        let w2 = document.createElement('td')
+        w2.textContent = Math.round(this._w2 * 1000)/1000
+        historyStep.appendChild(w2)
+
+        neuronHistory.appendChild(historyStep)
     }
 }
 
@@ -132,6 +155,7 @@ file.addEventListener("change", function () {
     reader.readAsText(this.files[0])
 
     prepare_canvas()
+    neuronHistory.innerHTML = ''
     neuron = undefined
 });
 
@@ -142,12 +166,34 @@ buildNeuronButton.addEventListener('click', function () {
     let w1 = document.getElementById('w1Start').value * 1
     let w2 = document.getElementById('w2Start').value * 1
     let learningRate = document.getElementById('learningRate').value * 1
-    
+    learning_step = 0
+
 
     prepare_canvas()
 
+    neuronHistory.innerHTML = ''
+
+    let historyHeader = document.createElement('tr')
+    
+    let hGen = document.createElement('th')
+    hGen.textContent = "Epoche"
+    historyHeader.appendChild(hGen)
+    let h_w0 = document.createElement('th')
+    h_w0.textContent = "w0"
+    historyHeader.appendChild(h_w0)
+    let h_w1 = document.createElement('th')
+    h_w1.textContent = "w1"
+    historyHeader.appendChild(h_w1)
+    let h_w2 = document.createElement('th')
+    h_w2.textContent = "w2"
+    historyHeader.appendChild(h_w2)
+    
+    neuronHistory.appendChild(historyHeader)
+
+
     neuron = new Neuron(w0, w1, w2, learningRate)
     neuron.borderFunction.drawFunction("red")
+
 
     samples = parseData()
     samples.forEach(datum => {
@@ -158,6 +204,7 @@ buildNeuronButton.addEventListener('click', function () {
 
 let learnOnceButton = document.getElementById('learnOnceButton')
 learnOnceButton.addEventListener('click', function () {
+    learning_step += 1
 
     samples.forEach(datum => {
         if (neuron.output(datum.x1, datum.x2) != datum.classification) {
@@ -165,6 +212,8 @@ learnOnceButton.addEventListener('click', function () {
             neuron.learn(datum)
         }
     });
+
+    neuron.newHistory()
 
     neuron.borderFunction.drawFunction("purple")
 })
@@ -179,6 +228,7 @@ learnButton.addEventListener('click', function () {
     let keepGoing = true
 
     while (keepGoing) {
+        learning_step +=1
         keepGoing = false
         currentCycles += 1
 
@@ -192,6 +242,8 @@ learnButton.addEventListener('click', function () {
         if (currentCycles >= maxCycles) {
             keepGoing = false
         }
+
+        neuron.newHistory()
     }
 
     neuron.borderFunction.drawFunction("blue")
