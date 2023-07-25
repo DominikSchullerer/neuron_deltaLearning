@@ -53,9 +53,9 @@ class Datum {
         let color = undefined
 
         if (this._classification == 0) {
-            color = "orange"
+            color = "red"
         } else {
-            color = "green"
+            color = "#6cb41e"
         }
         draw_point(this._x1, this._x2, color)
     }
@@ -192,7 +192,7 @@ buildNeuronButton.addEventListener('click', function () {
 
 
     neuron = new Neuron(w0, w1, w2, learningRate)
-    neuron.borderFunction.drawFunction("red")
+    neuron.borderFunction.drawFunction("#00943d")
 
 
     samples = parseData()
@@ -211,9 +211,8 @@ learnOnceButton.addEventListener('click', function () {
             keepGoing = true
             neuron.learn(datum)
         }
+        neuron.newHistory()
     });
-
-    neuron.newHistory()
 
     neuron.borderFunction.drawFunction("purple")
 })
@@ -237,13 +236,14 @@ learnButton.addEventListener('click', function () {
                 keepGoing = true
                 neuron.learn(datum)
             }
+            
+            neuron.newHistory()
         });
 
         if (currentCycles >= maxCycles) {
             keepGoing = false
         }
 
-        neuron.newHistory()
     }
 
     neuron.borderFunction.drawFunction("blue")

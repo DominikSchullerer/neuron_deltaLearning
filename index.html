@@ -60,10 +60,14 @@
             id="learningRate" name="learningRate">
         </span>
 
+        <p id="abbruchbedingung">
+            Die Abbruchbedinung ist erfüllt, wenn in einer Epoche alle Trainingsdaten korrekt zugeordnet werden oder wenn die maximale Anzahl an Epochen durchgeführt wurden.
+        </p>
+
         <span>
             <button id="buildNeuronButton">Neuron generieren</button>
-            <button id="learnButton">Lernen</button>
-            <button id="learnOnceButton">Eine Lerneepoche</button>
+            <button id="learnButton">Lernen (bis Abbruchbedingung erfüllt)</button>
+            <button id="learnOnceButton">Lernen (eine weitere Epoche)</button>
         </span>
     </div>
 

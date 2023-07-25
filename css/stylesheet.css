@@ -53,3 +53,7 @@ table {
   tr:nth-child(even) {
     background-color: #dddddd;
   }
+
+#abbruchbedingung {
+    max-width: 700px;
+}

@@ -138,7 +138,33 @@ function prepare_canvas() {
         ctx.textAlign = 'start';
         ctx.fillText(y_axis_starting_point.number * i * y_axis_scalar + y_axis_starting_point.suffix, 8, -y_grid_size * i + 3);
     }
+
+    // Labeling the axises
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'start';
+    ctx.fillText("Länge Kelchblatt in cm", 450, 35);
+    
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'start';
+    ctx.fillText("Länge Kronblatt in cm", 5, -460);
+
+    // Legend
+
+    ctx.fillStyle = "white"
+    ctx.fillRect(20, -440, 120, 80)
+    ctx.strokeRect(20, -440, 120, 80)
+
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'start';
+    ctx.fillStyle = "black"
+    ctx.fillText("Setosa", 50, -420);
+    ctx.fillText("Versicolor", 50, -380);
+
+
+    draw_point(0.4375, 5.325, "red")
+    draw_point(0.4375, 4.825, "#6cb41e")
 }
+
 
 function draw_x_line(x_min, x_max, y) {
     ctx.beginPath();
@@ -153,7 +179,7 @@ function draw_x_line(x_min, x_max, y) {
 function draw_point(x, y, color = "#add8e6") {
     ctx.fillStyle = color;
     ctx.beginPath();
-    ctx.arc(x * x_grid_size / x_axis_scalar, -y * y_grid_size / y_axis_scalar, 2, 0, 2 * Math.PI)
+    ctx.arc(x * x_grid_size / x_axis_scalar, -y * y_grid_size / y_axis_scalar, 3, 0, 2 * Math.PI)
     ctx.fill()
     ctx.fillStyle = "#000000";
 }
