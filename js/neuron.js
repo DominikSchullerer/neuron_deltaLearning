@@ -5,6 +5,11 @@ let samples = undefined
 let learning_step = 0
 let neuronHistory = document.getElementById("neuronHistory")
 
+let x1 = ""
+let x2 = ""
+let result = ""
+let target = ""
+
 
 prepare_canvas()
 
@@ -88,6 +93,11 @@ class Neuron {
     learn(datum) {
         let z = this.output(datum.x1, datum.x2)
 
+        x1 = datum.x1
+        x2 = datum.x2
+        result = z
+        target = datum._classification
+
         this._w0 = this._w0 + this._delta * (datum._classification - z)
         this._w1 = this._w1 + this._delta * (datum._classification - z) * datum.x1
         this._w2 = this._w2 + this._delta * (datum._classification - z) * datum.x2
@@ -111,6 +121,22 @@ class Neuron {
         let w2 = document.createElement('td')
         w2.textContent = Math.round(this._w2 * 1000)/1000
         historyStep.appendChild(w2)
+
+        let t_x1 = document.createElement('td')
+        t_x1.textContent = Math.round(x1 * 1000)/1000
+        historyStep.appendChild(t_x1)
+
+        let t_x2 = document.createElement('td')
+        t_x2.textContent = Math.round(x2 * 1000)/1000
+        historyStep.appendChild(t_x2)
+
+        let t_result = document.createElement('td')
+        t_result.textContent = result
+        historyStep.appendChild(t_result)
+
+        let t_target = document.createElement('td')
+        t_target.textContent = target
+        historyStep.appendChild(t_target)
 
         neuronHistory.appendChild(historyStep)
     }
@@ -187,6 +213,18 @@ buildNeuronButton.addEventListener('click', function () {
     let h_w2 = document.createElement('th')
     h_w2.textContent = "w2"
     historyHeader.appendChild(h_w2)
+    let h_x1 = document.createElement('th')
+    h_x1.textContent = "x1"
+    historyHeader.appendChild(h_x1)
+    let h_x2 = document.createElement('th')
+    h_x2.textContent = "x2"
+    historyHeader.appendChild(h_x2)
+    let h_result = document.createElement('th')
+    h_result.textContent = "Klassifizierung"
+    historyHeader.appendChild(h_result)
+    let h_target = document.createElement('th')
+    h_target.textContent = "Klasse (real)"
+    historyHeader.appendChild(h_target)
     
     neuronHistory.appendChild(historyHeader)
 
@@ -209,8 +247,8 @@ learnOnceButton.addEventListener('click', function () {
     samples.forEach(datum => {
         if (neuron.output(datum.x1, datum.x2) != datum.classification) {
             keepGoing = true
-            neuron.learn(datum)
         }
+        neuron.learn(datum)
         neuron.newHistory()
     });
 
@@ -234,9 +272,9 @@ learnButton.addEventListener('click', function () {
         samples.forEach(datum => {
             if (neuron.output(datum.x1, datum.x2) != datum.classification) {
                 keepGoing = true
-                neuron.learn(datum)
             }
             
+            neuron.learn(datum)
             neuron.newHistory()
         });
 
